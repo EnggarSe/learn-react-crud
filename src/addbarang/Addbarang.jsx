@@ -39,7 +39,6 @@ export default class Addbarang extends Component {
          getLocalStorage.push(list);
          
          localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
-         alert("Barang Ditambahkan")
          window.location.reload();
       }
      
