@@ -84,7 +84,9 @@ export default class LihatBarang extends Component {
       
       return (
          <Fragment>
-            <h2>Total Item Yang Dimiliki Sebanyak : {listBarang.length}</h2>
+            {listBarang.length === null ? <h2>Total Item Yang Dimiliki Sebanyak : 0</h2> : listBarang.length != null && 
+            <h2>Total Item Yang Dimiliki Sebanyak : {listBarang.length}</h2> }
+            
             <hr />
             <div className="md-form mt-3 container" id ="inputSearch">
                <input type="text" id="cariBarang" onChange = {this.handleChangeSearch} className="form-control" placeholder="Nama Barang" />
