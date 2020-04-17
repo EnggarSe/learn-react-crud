@@ -5,7 +5,7 @@ import Navigation from "./navigation/Navigation";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Addbarang from "./addbarang/Addbarang"
 import Main from "./main/Main"
-import LiharBarang from "./lihatBarang/LihatBarang"
+import LihatBarang from "./lihatBarang/LihatBarang"
 
 function App() {
    return (
@@ -20,7 +20,7 @@ function App() {
                <Main/>
             </Route>
             <Route path = '/LihatBarang'>
-               <LiharBarang/>
+               <LihatBarang/>
             </Route>
             
          </Switch>
