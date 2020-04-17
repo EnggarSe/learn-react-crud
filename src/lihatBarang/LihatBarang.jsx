@@ -81,8 +81,7 @@ export default class LihatBarang extends Component {
 
    render() {
       const listBarang = JSON.parse(localStorage.getItem("listBarang"));
-      
-      
+     
       return (
          <Fragment>
             <h2>Total Item Yang Dimiliki Sebanyak : {listBarang.length}</h2>
