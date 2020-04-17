@@ -1,0 +1,65 @@
+h1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 20px;
+}
+
+#containerCard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#cardItem {
+  width: 1000px !important;
+  height: 200px !important;
+  margin: 10px 0px 10px 0px;
+}
+
+#cardItem img {
+  margin-top: 7px;
+  height: 185px;
+}
+
+#controlButton button {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+h2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 30px;
+  color: white;
+}
+
+hr {
+  border-top: 2px solid white;
+  width: 30%;
+}
+
+#inputSearch {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 8%;
+  text-align: center;
+}
+/*# sourceMappingURL=lihatBarang.css.map */

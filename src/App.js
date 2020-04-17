@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Navigation from "./navigation/Navigation";
+// import Main from "./main/Main";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Addbarang from "./addbarang/Addbarang"
+import Main from "./main/Main"
+import LiharBarang from "./lihatBarang/LihatBarang"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   return (
+
+      <Router>
+         <Navigation />
+         <Switch>
+            <Route path='/addBarang'>
+               <Addbarang />
+            </Route>
+            <Route path='/Main'>
+               <Main/>
+            </Route>
+            <Route path = '/LihatBarang'>
+               <LiharBarang/>
+            </Route>
+            
+         </Switch>
+
+      </Router>
+
+
+   );
 }
 
 export default App;

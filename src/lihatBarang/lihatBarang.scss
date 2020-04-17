@@ -1,0 +1,41 @@
+h1{
+   display: flex;
+   justify-content: center;
+   margin-top : 20px;
+}
+#containerCard{
+   display: flex;
+   justify-content: center;
+}
+#cardItem{
+   width: 1000px !important;
+   height : 200px !important;
+   margin : 10px 0px 10px 0px;
+   img{
+      margin-top: 7px;
+      height : 185px
+   }
+}
+#controlButton{
+   button{
+      display: inline-flex;
+      justify-content: space-around;
+     
+   }
+}
+h2{
+   display: flex;
+   justify-content: center;
+   margin-top : 30px;
+   color: white;
+}
+hr{
+   border-top: 2px solid white;
+   width: 30%;
+}
+#inputSearch{
+   display: flex;
+   justify-content: center;
+   width: 8%;
+   text-align: center;
+}

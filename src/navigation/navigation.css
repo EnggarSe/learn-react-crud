@@ -1,0 +1,16 @@
+#addBarang {
+  display: block !important;
+  margin-top: 10px;
+  margin-left: 65px;
+}
+
+#leftMenu {
+  margin-left: 50px;
+}
+
+#leftMenu li {
+  margin-right: 20px;
+  font-size: 20px;
+  color: white !important;
+}
+/*# sourceMappingURL=navigation.css.map */

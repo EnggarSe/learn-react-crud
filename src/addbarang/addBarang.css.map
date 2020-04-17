@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACG,gBADa,CACb,KAAK,CAAA;EACF,MAAM,EAAE,IAAK;CAIf;;AANJ,AAGM,gBAHU,CACb,KAAK,CAEF,EAAE,CAAA;EACC,gBAAgB,EAAE,mBAAmB;CACvC",
+    "sources": [
+        "addBarang.scss"
+    ],
+    "names": [],
+    "file": "addBarang.css"
+}
