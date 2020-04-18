@@ -114,9 +114,9 @@ export default class LihatBarang extends Component {
             );
         });
 
-        console.log(filterBarang);
-
-        this.setState({ filteredList: filterBarang });
+        this.setState({
+            filteredList: event.target.value === "" ? "" : filterBarang,
+        });
     };
 
     render() {
