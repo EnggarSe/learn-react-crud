@@ -24,23 +24,39 @@ export default class Addbarang extends Component {
    handleSubmit = (event) =>{
       event.preventDefault();
       const listBarang = localStorage.getItem('listBarang')
+      let count = 0;
       const list = {
          namaBarang : this.state.namaBarang,
          jumlahBarang : this.state.jumlahBarang,
          urlBarang : this.state.urlBarang,
          createdAt : Moment().format("MMMM Do YYYY , h:mm:ss a"),
       }
+      
+      
       if(list.namaBarang==="" || list.jumlahBarang==="" || list.urlBarang===""){
          alert("Inputan Tidak Boleh Kosong");
          
       }
       else{
          const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
-         getLocalStorage.push(list);
          
-         localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
-         alert("Barang Ditambahkan")
-         window.location.reload();
+         for(let i = 0 ; i<getLocalStorage.length ; i++){
+            if(list.namaBarang === getLocalStorage[i].namaBarang){
+               alert("Anda Telah Memiliki Item Tersebut");
+               count++;
+               window.location.reload();
+               break;
+            }
+            
+         }
+         if(count===0){
+            getLocalStorage.push(list);
+            localStorage.setItem("listBarang", JSON.stringify(getLocalStorage)); 
+            alert("Barang Ditambahkan")
+            window.location.reload();
+         }
+         
+        
       }
      
         
@@ -51,7 +67,7 @@ export default class Addbarang extends Component {
             <div className="container col-md-6 animated slideInUp" id="containerBarang">
                <div className="card">
                   <h5 className="card-header info-color white-text text-center py-4">
-                     <strong>Tambah Barang</strong>
+                     <strong>Tambah Barangg</strong>
                   </h5>
                   <div className="card-body px-lg-5 pt-0">
                      <form onSubmit={this.handleSubmit} className="text-center" style={{ color: "#757575" }}>
