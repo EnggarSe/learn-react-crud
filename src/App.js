@@ -1,11 +1,11 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navigation from "./navigation/Navigation";
+import Navigation from "./srcApp/navigation/Navigation";
 // import Main from "./main/Main";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Addbarang from "./addbarang/Addbarang"
-import Main from "./main/Main"
-import LihatBarang from "./lihatBarang/LihatBarang"
+import Addbarang from "./srcApp/addbarang/Addbarang"
+import Main from "./srcApp/main/Main"
+import LihatBarang from "./srcApp/lihatBarang/LihatBarang"
 
 function App() {
    return (
@@ -13,16 +13,20 @@ function App() {
       <Router>
          <Navigation />
          <Switch>
-            <Route path='/addBarang'>
+            <Route exact path='/'>
+               <Main />
+            </Route>
+            <Route exact path='/addBarang'>
                <Addbarang />
             </Route>
-            <Route path='/Main'>
-               <Main/>
+            <Route exact path='/LihatBarang'>
+               <LihatBarang />
             </Route>
-            <Route path = '/LihatBarang'>
-               <LihatBarang/>
+            <Route exact path='/Main'>
+               <Main />
             </Route>
-            
+
+
          </Switch>
 
       </Router>

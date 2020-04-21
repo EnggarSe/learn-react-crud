@@ -80,17 +80,24 @@ export default class LihatBarang extends Component {
          searchBarang: event.target.value,
       });
       const listBarang = JSON.parse(localStorage.getItem("listBarang"));
-      const filterBarang = listBarang.filter((element) => {
-         return (
-            element.namaBarang
-               .toLowerCase()
-               .includes(this.state.searchBarang.toLowerCase()) && element
-         );
-      });
+      if (listBarang === null) {
+         alert("Barang Masih Kosong");
+         window.location.reload();
+      }
+      else {
+         const filterBarang = listBarang.filter((element) => {
+            return (
+               element.namaBarang
+                  .toLowerCase()
+                  .includes(this.state.searchBarang.toLowerCase()) && element
+            );
+         });
 
-      this.setState({
-         filteredList: event.target.value === "" ? "" : filterBarang,
-      });
+         this.setState({
+            filteredList: event.target.value === "" ? "" : filterBarang,
+         });
+
+      }
    };
    render() {
       let count = 0;
