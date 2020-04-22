@@ -13,6 +13,8 @@ export default class Addbarang extends Component {
    handleChange = (event)=>{
       event.preventDefault();
      
+      const user = localStorage.getItem('isLogin')
+      console.log(user);
       
       this.setState({
         [event.target.id] : event.target.value,
