@@ -2,66 +2,77 @@ import React, { Component, Fragment } from 'react';
 import './addBarang.css';
 import Moment from 'moment';
 export default class Addbarang extends Component {
-   constructor(props){
+   constructor(props) {
       super(props);
       this.state = {
-         namaBarang : '',
-         jumlahBarang : '',
-         urlBarang : '',
+         namaBarang: '',
+         jumlahBarang: '',
+         urlBarang: '',
       };
    }
-   handleChange = (event)=>{
+   handleChange = (event) => {
       event.preventDefault();
-     
-      const user = localStorage.getItem('isLogin')
-      console.log(user);
-      
       this.setState({
-        [event.target.id] : event.target.value,
+         [event.target.id]: event.target.value,
       });
       
-      
-   } 
+   }
 
-   handleSubmit = (event) =>{
+   handleSubmit = (event) => {
       event.preventDefault();
+
+      const userId = JSON.parse(localStorage.getItem("userData"))
+      const id = userId.id;
+      const urlBarang = `https://5e9fca5511b078001679cd41.mockapi.io/barang`;
       const listBarang = localStorage.getItem('listBarang')
       let count = 0;
       const list = {
-         namaBarang : this.state.namaBarang,
-         jumlahBarang : this.state.jumlahBarang,
-         urlBarang : this.state.urlBarang,
-         createdAt : Moment().format("MMMM Do YYYY , h:mm:ss a"),
+         namaBarang: this.state.namaBarang,
+         jumlahBarang: this.state.jumlahBarang,
+         urlBarang: this.state.urlBarang,
+         createdAt: Moment().format("MMMM Do YYYY , h:mm:ss a"),
+         userId : id,
       }
-      
-      
-      if(list.namaBarang==="" || list.jumlahBarang==="" || list.urlBarang===""){
+      if (list.namaBarang === "" || list.jumlahBarang === "" || list.urlBarang === "") {
          alert("Inputan Tidak Boleh Kosong");
-         
       }
-      else{
+      else {
          const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
-         
-         for(let i = 0 ; i<getLocalStorage.length ; i++){
-            if(list.namaBarang === getLocalStorage[i].namaBarang){
+
+         for (let i = 0; i < getLocalStorage.length; i++) {
+            if (list.namaBarang === getLocalStorage[i].namaBarang) {
                alert("Anda Telah Memiliki Item Tersebut");
                count++;
                window.location.reload();
                break;
             }
-            
+
          }
-         if(count===0){
-            getLocalStorage.push(list);
-            localStorage.setItem("listBarang", JSON.stringify(getLocalStorage)); 
-            alert("Barang Ditambahkan")
-            window.location.reload();
+         if (count === 0) {
+            const tambahBarang = {
+               headers: {
+                  'Content-Type': 'application/json'
+               },
+               body: JSON.stringify(list),
+               method: 'POST'
+            };
+            fetch(urlBarang, tambahBarang)
+               .then((response) => {
+                  return response.json()
+               })
+               .then((result) => {
+                  const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
+                  getLocalStorage.push(list);
+                  localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
+                  alert("Barang Ditambahkan")
+                  window.location.reload();
+               });
          }
-         
-        
+
+
       }
-     
-        
+
+
    }
    render() {
       return (
@@ -74,14 +85,14 @@ export default class Addbarang extends Component {
                   <div className="card-body px-lg-5 pt-0">
                      <form onSubmit={this.handleSubmit} className="text-center" style={{ color: "#757575" }}>
                         <div className="md-form mt-3">
-                           <input type="text" id="namaBarang" className="form-control" onChange = {this.handleChange} placeholder="Nama Barang" />
+                           <input type="text" id="namaBarang" className="form-control" onChange={this.handleChange} placeholder="Nama Barang" />
                         </div>
                         <div className="md-form">
-                           <input type="Number" id="jumlahBarang" className="form-control" onChange = {this.handleChange} placeholder="Jumlah Barang" />
+                           <input type="Number" id="jumlahBarang" className="form-control" onChange={this.handleChange} placeholder="Jumlah Barang" />
 
                         </div>
                         <div className="md-form">
-                           <input type="url" id="urlBarang" className="form-control" onChange = {this.handleChange} placeholder="Url Gambar Barang" />
+                           <input type="url" id="urlBarang" className="form-control" onChange={this.handleChange} placeholder="Url Gambar Barang" />
                         </div>
                         <button className="btn btn-dark btn-rounded btn-block z-depth-0 my-4 waves-effect" type="submit">Tambahkan</button>
                      </form>

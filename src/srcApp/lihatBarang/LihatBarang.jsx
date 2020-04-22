@@ -14,6 +14,7 @@ export default class LihatBarang extends Component {
          searchBarang: '',
          index: 0,
          filteredList: null,
+         listBarang : [],
       };
    }
    handleShow = (event, index) => {
@@ -65,6 +66,7 @@ export default class LihatBarang extends Component {
 
    }
    hapusList = (index) => {
+      const barang = JSON.parse(localStorage.getItem('listBarang'))
       const confirmBox = window.confirm("Yakin Untuk Hapus Barang ?")
       if (confirmBox === true) {
          const listBarang = JSON.parse(localStorage.getItem('listBarang'));
@@ -99,34 +101,51 @@ export default class LihatBarang extends Component {
 
       }
    };
+   componentDidMount = async() => {
+      const urlBarang =  `https://5e9fca5511b078001679cd41.mockapi.io/barang`
+      const response = await fetch(urlBarang);
+      const result = await response.json();
+      console.log(result);
+      const user = JSON.parse(localStorage.getItem('userData'))
+      const filter = result.filter((element) =>{
+          return element.userId === user.id && element 
+      })
+      this.setState({
+         listBarang : filter,
+      })
+      console.log(this.state.listBarang, "listBarng");
+      
+
+   }
+
    render() {
-      let count = 0;
-      // const listBarang = JSON.parse(localStorage.getItem("listBarang"));
+      // let count = 0;
+      // const barang = this.props.listBarang;
+      // console.log(barang, "ini Barang");
+      
+      // const listBarang = Array.isArray(this.state.filteredList)
+      //    ? this.state.filteredList
+      //    : JSON.parse(localStorage.getItem("listBarang"));
 
-      // Search Barang
-      const listBarang = Array.isArray(this.state.filteredList)
-         ? this.state.filteredList
-         : JSON.parse(localStorage.getItem("listBarang"));
-
-      if (listBarang === null) {
-         count = 0
-      }
-      else {
-         for (let i = 0; i < listBarang.length; i++) {
-            count++
-         }
-      }
+      // if (listBarang === null) {
+      //    count = 0
+      // }
+      // else {
+      //    for (let i = 0; i < listBarang.length; i++) {
+      //       count++
+      //    }
+      // }
 
       return (
          <Fragment>
-            <h2>Total Item Yang Dimiliki Sebanyak : {count}</h2>
+            <h2>Total Item Yang Dimiliki Sebanyak : {this.state.listBarang.length}</h2>
             <hr />
             <div className="md-form mt-3 container" id="inputSearch">
                <input type="text" id="cariBarang" onChange={this.handleChangeSearch} className="form-control" placeholder="Nama Barang" />
             </div>
             <div className="row">
-               {Array.isArray(listBarang) &&
-                  listBarang.map((element, index) => {
+               {Array.isArray(this.state.listBarang) &&
+                  this.state.listBarang.map((element, index) => {
                      return (
                         <div className="container col-md-12 animated zoomIn" id="containerCard" key={index}>
                            <div id="cardItem" className="card" style={{ maxWidth: "600px", maxHeight: "300px" }}>
