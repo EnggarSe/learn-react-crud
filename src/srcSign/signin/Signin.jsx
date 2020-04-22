@@ -84,7 +84,7 @@ export default function Signin() {
                            <h2 className="fruit">Belum Punya Akun ?</h2>
                         </div>
                         <div className="hr-Horizontal">
-                           
+
                         </div>
                         <p >
 
@@ -139,6 +139,7 @@ export default function Signin() {
                            history.push("/Main");
 
 
+
                         }
                      }}
                   >
@@ -152,49 +153,49 @@ export default function Signin() {
                         isSubmitting,
                      }) => {
                         return (
-                           <Form className="input" onSubmit = {handleSubmit}>
+                           <Form className="input" onSubmit={handleSubmit}>
                               <div className="Login-text">
                                  <h1>Login</h1>
                               </div>
                               <Form.Group >
-                                 <Form.Control 
-                                 type="text" 
-                                 placeholder="Username"
-                                 name = "username"
-                                 onChange={handleChange}
-                                 onBlur={handleBlur}
-                                 value={values.username} 
+                                 <Form.Control
+                                    type="text"
+                                    placeholder="Username"
+                                    name="username"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.username}
                                  />
-                                  <span
-                                        style={{
-                                            color: "yellow",
-                                            fontStyle: "bold",
-                                        }}
-                                    >
-                                        {errors.username &&
-                                            touched.username &&
-                                            errors.username}
-                                    </span>
+                                 <span
+                                    style={{
+                                       color: "yellow",
+                                       fontStyle: "bold",
+                                    }}
+                                 >
+                                    {errors.username &&
+                                       touched.username &&
+                                       errors.username}
+                                 </span>
                               </Form.Group>
                               <Form.Group>
-                                 <Form.Control 
-                                 type="password" 
-                                 placeholder="Password" 
-                                 name = "password"
-                                 onChange={handleChange}
-                                 onBlur={handleBlur}
-                                 value={values.password}
+                                 <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password}
                                  />
-                                  <span
-                                        style={{
-                                            color: "yellow",
-                                            fontStyle: "bold",
-                                        }}
-                                    >
-                                        {errors.password &&
-                                            touched.password &&
-                                            errors.password}
-                                    </span>
+                                 <span
+                                    style={{
+                                       color: "yellow",
+                                       fontStyle: "bold",
+                                    }}
+                                 >
+                                    {errors.password &&
+                                       touched.password &&
+                                       errors.password}
+                                 </span>
                               </Form.Group>
                               <div className="button-submit">
                                  <Button variant="dark" type="submit">Login</Button>

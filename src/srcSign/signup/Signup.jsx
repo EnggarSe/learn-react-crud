@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Jumbotron, Button, Form } from 'react-bootstrap'
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { Formik } from 'formik';
+
 
 
 
@@ -67,15 +68,21 @@ const StyledDiv = styled.div`
 
 export default function Signup() {
    const url = "https://5e8ecf49fe7f2a00165ee9ff.mockapi.io/userss"
-   // const cekUser = [];
-   // const getUserCek = async(username)=>{
-   //    const response = await fetch(url);
-   //    const result = await response.json();
-   //    result.forEach(element => {
-   //       cekUser.push(element.username);   
-   //    });
-   //    return cekUser;
-   // }
+   
+
+   const [data, setData] = useState([])
+
+   useEffect(() => {
+      const getUserCek = async(username)=>{
+         const response = await fetch(url);
+         const result = await response.json();
+         setData(result)
+      }
+      getUserCek(); 
+
+   },[]) 
+
+  
    return (
       <Fragment>
          <div className="row">
@@ -113,6 +120,10 @@ export default function Signup() {
                      }}
                      validate={(values) => {
                         const errors = {};
+                        const filterData = data.find(element => {
+                           return element.username === values.username && element
+                        });
+                        console.log(filterData);
                         if (values.email === "") {
                            errors.email = "Required";
                         } else if (
@@ -131,10 +142,13 @@ export default function Signup() {
                            errors.confirmPassword =
                               "Password Tidak Sama"
                         } 
-                        // else if (getUserCek.includes(values.username)){
-                        //    errors.username = 
-                        //       "Username sudah terdaftar"
-                        // }
+                        else if (filterData!==undefined){
+                           errors.username = 
+                              "Username sudah terdaftar"
+                        }
+
+                       
+                        
 
                         return errors;
                      }}
