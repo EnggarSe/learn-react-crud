@@ -15,7 +15,7 @@ export default class Addbarang extends Component {
       this.setState({
          [event.target.id]: event.target.value,
       });
-      
+
    }
 
    handleSubmit = (event) => {
@@ -31,46 +31,35 @@ export default class Addbarang extends Component {
          jumlahBarang: this.state.jumlahBarang,
          urlBarang: this.state.urlBarang,
          createdAt: Moment().format("MMMM Do YYYY , h:mm:ss a"),
-         userId : id,
+         userId: id,
       }
       if (list.namaBarang === "" || list.jumlahBarang === "" || list.urlBarang === "") {
          alert("Inputan Tidak Boleh Kosong");
       }
       else {
          const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
-
-         for (let i = 0; i < getLocalStorage.length; i++) {
-            if (list.namaBarang === getLocalStorage[i].namaBarang) {
-               alert("Anda Telah Memiliki Item Tersebut");
-               count++;
+         const tambahBarang = {
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(list),
+            method: 'POST'
+         };
+         fetch(urlBarang, tambahBarang)
+            .then((response) => {
+               return response.json()
+            })
+            .then((result) => {
+               const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
+               getLocalStorage.push(list);
+               localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
+               alert("Barang Ditambahkan")
                window.location.reload();
-               break;
-            }
-
-         }
-         if (count === 0) {
-            const tambahBarang = {
-               headers: {
-                  'Content-Type': 'application/json'
-               },
-               body: JSON.stringify(list),
-               method: 'POST'
-            };
-            fetch(urlBarang, tambahBarang)
-               .then((response) => {
-                  return response.json()
-               })
-               .then((result) => {
-                  const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
-                  getLocalStorage.push(list);
-                  localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
-                  alert("Barang Ditambahkan")
-                  window.location.reload();
-               });
-         }
-
-
+            });
       }
+
+
+
 
 
    }
