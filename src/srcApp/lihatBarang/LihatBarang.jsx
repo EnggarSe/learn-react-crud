@@ -17,16 +17,20 @@ export default class LihatBarang extends Component {
          listBarang : [],
       };
    }
-   handleShow = (event, index) => {
-      // event.preventDefault();
+   handleShow = (event,element, index) => {
+      event.preventDefault();
       // merubah nilai state setiap klik edit
-      const listBarang = JSON.parse(localStorage.getItem("listBarang"))
+      let currentItem = this.state.listBarang.find((list)=> list.id === element);
+      console.log(currentItem.namaBarang, "listbarang");
+
+      // const int = parseInt(element);     
+      // const listBarang = JSON.parse(localStorage.getItem("listBarang"))
       this.setState({
          show: true,
-         namaBarang: listBarang[index].namaBarang,
-         jumlahBarang: listBarang[index].jumlahBarang,
-         urlBarang: listBarang[index].urlBarang,
-         index: index,
+         namaBarang: currentItem.namaBarang,
+         jumlahBarang: currentItem.jumlahBarang,
+         urlBarang: currentItem.urlBarang,
+         index: element,
       });
 
    }
@@ -43,10 +47,9 @@ export default class LihatBarang extends Component {
       });
 
    }
-   handleEdit = (event) => {
+   handleEdit = async(event) => {
       event.preventDefault();
-      const listBarang = JSON.parse(localStorage.getItem('listBarang'));
-
+      const urlBarang =  `https://5e9fca5511b078001679cd41.mockapi.io/barang/${this.state.index}`
       const editList = {
          namaBarang: this.state.namaBarang,
          jumlahBarang: this.state.jumlahBarang,
@@ -57,23 +60,30 @@ export default class LihatBarang extends Component {
          alert("Inputan Tidak Boleh Kosong");
       }
       else {
-         listBarang.splice(this.state.index, 1, editList);
-         localStorage.setItem("listBarang", JSON.stringify(listBarang));
+         const response = await fetch(urlBarang,{
+            method : 'PUT',
+            headers : {
+                  'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify(editList),
+         });
+
+         await response.json();
          alert("Barang Diedit");
          window.location.reload();
       }
 
 
    }
-   hapusList = (index) => {
-      const barang = JSON.parse(localStorage.getItem('listBarang'))
+   hapusList = async(elementid,index) => {
+      const urlBarang =  `https://5e9fca5511b078001679cd41.mockapi.io/barang/${elementid}`
       const confirmBox = window.confirm("Yakin Untuk Hapus Barang ?")
       if (confirmBox === true) {
-         const listBarang = JSON.parse(localStorage.getItem('listBarang'));
-         listBarang.splice(index, 1);
-         window.location.reload();
-
-         localStorage.setItem('listBarang', JSON.stringify(listBarang))
+        const response = await fetch(urlBarang, {
+           method : 'DELETE'
+        });
+        await response.json();
+        window.location.reload();
       }
    }
    handleChangeSearch = (event) => {
@@ -105,7 +115,6 @@ export default class LihatBarang extends Component {
       const urlBarang =  `https://5e9fca5511b078001679cd41.mockapi.io/barang`
       const response = await fetch(urlBarang);
       const result = await response.json();
-      console.log(result);
       const user = JSON.parse(localStorage.getItem('userData'))
       const filter = result.filter((element) =>{
           return element.userId === user.id && element 
@@ -113,7 +122,7 @@ export default class LihatBarang extends Component {
       this.setState({
          listBarang : filter,
       })
-      console.log(this.state.listBarang, "listBarng");
+      
       
 
    }
@@ -135,7 +144,7 @@ export default class LihatBarang extends Component {
       //       count++
       //    }
       // }
-
+      
       return (
          <Fragment>
             <h2>Total Item Yang Dimiliki Sebanyak : {this.state.listBarang.length}</h2>
@@ -146,8 +155,10 @@ export default class LihatBarang extends Component {
             <div className="row">
                {Array.isArray(this.state.listBarang) &&
                   this.state.listBarang.map((element, index) => {
+                   
+                     
                      return (
-                        <div className="container col-md-12 animated zoomIn" id="containerCard" key={index}>
+                        <div className="container col-md-12 animated zoomIn" id="containerCard" key={element.id}>
                            <div id="cardItem" className="card" style={{ maxWidth: "600px", maxHeight: "300px" }}>
                               <div className="row no-gutters">
                                  <div className="col-md-4">
@@ -159,8 +170,8 @@ export default class LihatBarang extends Component {
                                        <p className="card-text">Jumlah Barang : {element.jumlahBarang}</p>
                                        <p className="card-text"><small className="text-muted">Diposting {element.createdAt}</small></p>
                                        <div id="controlButton">
-                                          <button onClick={() => { this.hapusList(index) }} type="button" className="btn btn-black" style={{ color: "white" }}>Hapus</button>
-                                          <button onClick={(event) => this.handleShow(event, index)} type="button" className="btn btn-black" style={{ color: "white" }}   >Edit
+                                          <button onClick={() => { this.hapusList(element.id,index) }} type="button" className="btn btn-black" style={{ color: "white" }}>Hapus</button>
+                                          <button onClick={(event) => this.handleShow(event, element.id ,index)} type="button" className="btn btn-black" style={{ color: "white" }}   >Edit
                                        </button>
                                        </div>
                                     </div>

@@ -18,14 +18,11 @@ export default class Addbarang extends Component {
 
    }
 
-   handleSubmit = (event) => {
+   handleSubmit = async(event) => {
       event.preventDefault();
-
       const userId = JSON.parse(localStorage.getItem("userData"))
       const id = userId.id;
       const urlBarang = `https://5e9fca5511b078001679cd41.mockapi.io/barang`;
-      const listBarang = localStorage.getItem('listBarang')
-      let count = 0;
       const list = {
          namaBarang: this.state.namaBarang,
          jumlahBarang: this.state.jumlahBarang,
@@ -37,25 +34,29 @@ export default class Addbarang extends Component {
          alert("Inputan Tidak Boleh Kosong");
       }
       else {
-         const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
-         const tambahBarang = {
+         const response = await fetch(urlBarang,{ 
             headers: {
                'Content-Type': 'application/json'
             },
             body: JSON.stringify(list),
             method: 'POST'
-         };
-         fetch(urlBarang, tambahBarang)
-            .then((response) => {
-               return response.json()
-            })
-            .then((result) => {
-               const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
-               getLocalStorage.push(list);
-               localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
-               alert("Barang Ditambahkan")
-               window.location.reload();
-            });
+         });
+         await response.json();
+         // Using Promise
+         // fetch(urlBarang, tambahBarang)
+         //    .then((response) => {
+         //       return response.json()
+         //    })
+         //    .then((result) => {
+         //       const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
+         //       getLocalStorage.push(list);
+         //       localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
+         //       alert("Barang Ditambahkan")
+         //       window.location.reload();
+         //    });
+       
+         alert("Barang Ditambahkan")
+         window.location.reload();
       }
 
 
