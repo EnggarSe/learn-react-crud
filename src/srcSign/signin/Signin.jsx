@@ -86,14 +86,14 @@ export default function Signin() {
                         <div className="hr-Horizontal">
 
                         </div>
-                        <p >
 
-                           <div className="buttonSign">
-                              <Link to="/signup">
-                                 <Button variant="dark">Daftar</Button>
-                              </Link>
-                           </div>
-                        </p>
+
+                        <div className="buttonSign">
+                           <Link to="/signup">
+                              <Button variant="dark">Daftar</Button>
+                           </Link>
+                        </div>
+
                      </Jumbotron>
                   </StyleDivLeft>
                </div>

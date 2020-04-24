@@ -5,6 +5,10 @@ import {Link} from 'react-router-dom';
 import './navigation.css'
 class Navigation extends Component {
 
+   clearData = () => {
+      localStorage.setItem('isLogin', false);
+      localStorage.setItem('userData', []);
+   }
    
 
    render() {
@@ -40,7 +44,10 @@ class Navigation extends Component {
 
                      <Dropdown.Menu>
                         <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Logout</Dropdown.Item>
+                       
+                           <Dropdown.Item > <Link to = "/signin" onClick = {this.clearData}>Logout</Link></Dropdown.Item>
+                        
+                       
                      </Dropdown.Menu>
                   </Dropdown>
                </div>

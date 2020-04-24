@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import './lihatBarang.css';
 import { Modal } from 'react-bootstrap';
 import Moment from 'moment'
+import Barang from '../lihatBarang/Barang';
+
 
 export default class LihatBarang extends Component {
    constructor(props) {
@@ -17,7 +19,19 @@ export default class LihatBarang extends Component {
          listBarang : [],
       };
    }
-   handleShow = (event,element, index) => {
+   showBarang = async () => {
+      const urlBarang =  `https://5e9fca5511b078001679cd41.mockapi.io/barang`
+      const response = await fetch(urlBarang);
+      const result = await response.json();
+      const user = JSON.parse(localStorage.getItem('userData'))
+      const filter = result.filter((element) =>{
+          return element.userId === user.id && element 
+      })
+      this.setState({
+         listBarang : filter,
+      })
+   }
+   handleShow = (event,element) => {
       event.preventDefault();
       let currentItem = this.state.listBarang.find((list)=> list.id === element);
       console.log(currentItem.namaBarang, "listbarang");
@@ -56,7 +70,7 @@ export default class LihatBarang extends Component {
          alert("Inputan Tidak Boleh Kosong");
       }
       else {
-         const response = await fetch(urlBarang,{
+         await fetch(urlBarang,{
             method : 'PUT',
             headers : {
                   'Content-Type' : 'application/json'
@@ -64,30 +78,29 @@ export default class LihatBarang extends Component {
             body : JSON.stringify(editList),
          });
 
-         await response.json();
-         alert("Barang Diedit");
-         window.location.reload();
+         this.showBarang();
+         this.setState({
+            show : false,
+         })
       }
-
-
    }
-   hapusList = async(elementid,index) => {
+   hapusList = async(elementid) => {
       const urlBarang =  `https://5e9fca5511b078001679cd41.mockapi.io/barang/${elementid}`
       const confirmBox = window.confirm("Yakin Untuk Hapus Barang ?")
       if (confirmBox === true) {
-        const response = await fetch(urlBarang, {
+        await fetch(urlBarang, {
            method : 'DELETE'
         });
-        await response.json();
-        window.location.reload();
+        this.showBarang();
+        
       }
    }
    handleChangeSearch = (event) => {
       event.preventDefault();
       this.setState({
          searchBarang: event.target.value,
-      });
-      const listBarang = JSON.parse(localStorage.getItem("listBarang"));
+      });      
+      const listBarang = this.state.listBarang;
       if (listBarang === null) {
          alert("Search List Under Maintanance");
          window.location.reload();
@@ -100,6 +113,8 @@ export default class LihatBarang extends Component {
                   .includes(this.state.searchBarang.toLowerCase()) && element
             );
          });
+         console.log(filterBarang, "filter");
+         
 
          this.setState({
             filteredList: event.target.value === "" ? "" : filterBarang,
@@ -108,53 +123,27 @@ export default class LihatBarang extends Component {
       }
    };
    componentDidMount = async() => {
-      const urlBarang =  `https://5e9fca5511b078001679cd41.mockapi.io/barang`
-      const response = await fetch(urlBarang);
-      const result = await response.json();
-      const user = JSON.parse(localStorage.getItem('userData'))
-      const filter = result.filter((element) =>{
-          return element.userId === user.id && element 
-      })
-      this.setState({
-         listBarang : filter,
-      })
+      this.showBarang();
    }
    render() {
-      // const listBarang = Array.isArray(this.state.filteredList)
-      //    ? this.state.filteredList
-      //    : JSON.parse(localStorage.getItem("listBarang"));
+      const listBarang = Array.isArray(this.state.filteredList)
+         ? this.state.filteredList
+         : this.state.listBarang
       return (
          <Fragment>
+            <div ref={this.wrapper}>
+               
+            </div>
             <h2>Total Item Yang Dimiliki Sebanyak : {this.state.listBarang.length}</h2>
             <hr />
             <div className="md-form mt-3 container" id="inputSearch">
                <input type="text" id="cariBarang" onChange={this.handleChangeSearch} className="form-control" placeholder="Nama Barang" />
             </div>
             <div className="row">
-               {Array.isArray(this.state.listBarang) &&
-                  this.state.listBarang.map((element, index) => {
+               {Array.isArray(listBarang) &&
+                  listBarang.map((element, index) => {
                      return (
-                        <div className="container col-md-12 animated zoomIn" id="containerCard" key={element.id}>
-                           <div id="cardItem" className="card" style={{ maxWidth: "600px", maxHeight: "300px" }}>
-                              <div className="row no-gutters">
-                                 <div className="col-md-4">
-                                    <img src={element.urlBarang} className="card-img" alt="gambar" />
-                                 </div>
-                                 <div className="col-md-8">
-                                    <div className="card-body">
-                                       <h5 className="card-title">{element.namaBarang}</h5>
-                                       <p className="card-text">Jumlah Barang : {element.jumlahBarang}</p>
-                                       <p className="card-text"><small className="text-muted">Diposting {element.createdAt}</small></p>
-                                       <div id="controlButton">
-                                          <button onClick={() => { this.hapusList(element.id,index) }} type="button" className="btn btn-black" style={{ color: "white" }}>Hapus</button>
-                                          <button onClick={(event) => this.handleShow(event, element.id ,index)} type="button" className="btn btn-black" style={{ color: "white" }}   >Edit
-                                       </button>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+                        <Barang key = {element.id} id = {element.id} data = {element} hapusList = {this.hapusList} handleShow = {this.handleShow}  />
                      );
                   })}
                <Modal show={this.state.show} onHide={this.handleClose}>
@@ -177,6 +166,7 @@ export default class LihatBarang extends Component {
                      </form>
                   </Modal.Body>
                </Modal>
+               
             </div>
 
          </Fragment>
