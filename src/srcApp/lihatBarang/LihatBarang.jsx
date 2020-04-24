@@ -19,12 +19,8 @@ export default class LihatBarang extends Component {
    }
    handleShow = (event,element, index) => {
       event.preventDefault();
-      // merubah nilai state setiap klik edit
       let currentItem = this.state.listBarang.find((list)=> list.id === element);
       console.log(currentItem.namaBarang, "listbarang");
-
-      // const int = parseInt(element);     
-      // const listBarang = JSON.parse(localStorage.getItem("listBarang"))
       this.setState({
          show: true,
          namaBarang: currentItem.namaBarang,
@@ -93,7 +89,7 @@ export default class LihatBarang extends Component {
       });
       const listBarang = JSON.parse(localStorage.getItem("listBarang"));
       if (listBarang === null) {
-         alert("Barang Masih Kosong");
+         alert("Search List Under Maintanance");
          window.location.reload();
       }
       else {
@@ -122,29 +118,11 @@ export default class LihatBarang extends Component {
       this.setState({
          listBarang : filter,
       })
-      
-      
-
    }
-
    render() {
-      // let count = 0;
-      // const barang = this.props.listBarang;
-      // console.log(barang, "ini Barang");
-      
       // const listBarang = Array.isArray(this.state.filteredList)
       //    ? this.state.filteredList
       //    : JSON.parse(localStorage.getItem("listBarang"));
-
-      // if (listBarang === null) {
-      //    count = 0
-      // }
-      // else {
-      //    for (let i = 0; i < listBarang.length; i++) {
-      //       count++
-      //    }
-      // }
-      
       return (
          <Fragment>
             <h2>Total Item Yang Dimiliki Sebanyak : {this.state.listBarang.length}</h2>
@@ -155,8 +133,6 @@ export default class LihatBarang extends Component {
             <div className="row">
                {Array.isArray(this.state.listBarang) &&
                   this.state.listBarang.map((element, index) => {
-                   
-                     
                      return (
                         <div className="container col-md-12 animated zoomIn" id="containerCard" key={element.id}>
                            <div id="cardItem" className="card" style={{ maxWidth: "600px", maxHeight: "300px" }}>

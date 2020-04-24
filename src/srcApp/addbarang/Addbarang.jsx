@@ -42,27 +42,8 @@ export default class Addbarang extends Component {
             method: 'POST'
          });
          await response.json();
-         // Using Promise
-         // fetch(urlBarang, tambahBarang)
-         //    .then((response) => {
-         //       return response.json()
-         //    })
-         //    .then((result) => {
-         //       const getLocalStorage = listBarang === null ? [] : JSON.parse(listBarang);
-         //       getLocalStorage.push(list);
-         //       localStorage.setItem("listBarang", JSON.stringify(getLocalStorage));
-         //       alert("Barang Ditambahkan")
-         //       window.location.reload();
-         //    });
-       
-         alert("Barang Ditambahkan")
          window.location.reload();
       }
-
-
-
-
-
    }
    render() {
       return (
@@ -90,7 +71,6 @@ export default class Addbarang extends Component {
                </div>
             </div>
          </Fragment>
-
       )
    }
 }
