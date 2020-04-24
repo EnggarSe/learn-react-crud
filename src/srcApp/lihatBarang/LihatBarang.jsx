@@ -34,7 +34,6 @@ export default class LihatBarang extends Component {
    handleShow = (event,element) => {
       event.preventDefault();
       let currentItem = this.state.listBarang.find((list)=> list.id === element);
-      console.log(currentItem.namaBarang, "listbarang");
       this.setState({
          show: true,
          namaBarang: currentItem.namaBarang,
@@ -113,7 +112,7 @@ export default class LihatBarang extends Component {
                   .includes(this.state.searchBarang.toLowerCase()) && element
             );
          });
-         console.log(filterBarang, "filter");
+         
          
 
          this.setState({

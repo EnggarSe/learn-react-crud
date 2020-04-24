@@ -123,7 +123,6 @@ export default function Signup() {
                         const filterData = data.find(element => {
                            return element.username === values.username && element
                         });
-                        console.log(filterData);
                         if (values.email === "") {
                            errors.email = "Required";
                         } else if (
